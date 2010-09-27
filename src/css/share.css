@@ -1,0 +1,54 @@
+
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	overflow-y: auto;
+}
+
+#item-template{
+	display: none;
+}
+
+.item {
+	display: block;
+	width: 100%;
+	padding-bottom: 2px;
+}
+
+.item:last-child {
+	padding-bottom: 0;
+}
+
+button {
+	margin: 0;
+	border: 1px solid #888;
+	border-radius: 5px;
+	padding: 0 10px;
+	width: 100%;
+	height: 30px;
+	text-align: left;
+	-webkit-box-sizing: border-box;
+	-webkit-transition: all 0.1s linear;
+	background: -webkit-gradient(linear, left top, left bottom,
+		from(#FFF), to(#CCC));
+}
+
+button:hover {
+	border: 1px solid #CA6;
+	-webkit-box-shadow: 0 0 5px #FC8;
+}
+
+button:active {
+	background: -webkit-gradient(linear, left top, left bottom,
+		from(#BBB), to(#EEE));
+}
+
+button > img {
+	vertical-align: middle;
+	margin-right: 10px;
+}

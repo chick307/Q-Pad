@@ -1,0 +1,145 @@
+
+/* Page Layout */
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 600px;
+	height: 300px;
+	overflow: hidden;
+}
+
+#wrapper {
+	margin: 0;
+	padding: 26px 0 0 0;
+	width: 100%;
+	height: 100%;
+	-webkit-user-select: none;
+	-webkit-box-sizing: border-box;
+}
+
+/* Toolbar */
+#bar {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+
+#top-bar {
+	display: block;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+#top-bar > li {
+	display: inline-block;
+	margin: 0 2px 0 0;
+	padding: 0;
+	vertical-align: middle;
+}
+
+#top-right-bar {
+	display: block;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 24px;
+}
+
+#top-right-bar > li {
+	display: inline-block;
+	margin: 0 0 0 2px;
+	padding: 0;
+	vertical-align: middle;
+}
+
+/* Tool Button */
+button {
+	margin: 0;
+	border: 1px solid #888;
+	border-radius: 5px;
+	padding: 0 3px;
+	height: 24px;
+	-webkit-transition: all 0.1s linear;
+	background: -webkit-gradient(linear, left top, left bottom,
+		from(#FFF), to(#CCC));
+}
+
+button:hover {
+	border: 1px solid #CA6;
+	-webkit-box-shadow: 0 0 5px #FC8;
+}
+
+button:active {
+	background: -webkit-gradient(linear, left top, left bottom,
+		from(#BBB), to(#EEE));
+}
+
+button > img {
+	vertical-align: middle;
+}
+
+button > span {
+	color: #282828;
+	text-shadow: 1px 1px 0 #FFF;
+	line-height: 22px;
+	vertical-align: middle;
+	margin: 0 2px;
+}
+
+/* Pad */
+#pad {
+	margin: 0;
+	padding: 0;
+	border: 1px solid #CCC;
+	width: 100%;
+	height: 100%;
+	-webkit-box-sizing: border-box;
+}
+
+/* Share Button Popup */
+#share-popup {
+	display: none;
+	padding: 3px;
+	border: 1px solid #AAA;
+	border-radius: 5px;
+	position: absolute;
+	width: 300px;
+	height: 200px;
+	top: 30px;
+	background-color: #EEE;
+}
+
+#share-popup-frame {
+	width: 100%;
+	height: 100%;
+	border: 0;
+	-webkit-box-sizing: border-box;
+}
+
+#share-popup-border-o {
+	border-width: 0 10px 10px 10px;
+	border-color: transparent transparent #888 transparent;
+	border-style: solid;
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: 15px;
+	top: -10px;
+}
+
+#share-popup-border-i {
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: -10px;
+	top: 1px;
+	border-width: 0 10px 10px 10px;
+	border-color: transparent transparent #EEE transparent;
+	border-style: solid;
+}
