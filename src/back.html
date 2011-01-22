@@ -1,10 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8"/>
-	<script type="text/javascript" src="js/preference.js"></script>
-	<script type="text/javascript" src="js/back.js"></script>
-	<script type="text/javascript" src="js/api.js"></script>
+
+<meta charset="utf-8"/>
+<script src="js/pref.js"></script>
+<script>
+	var pref = new Preference({
+		prefix: 'pref-'
+	});
+	
+	
+	var externalServices = [];
+	
+	externalServices.push({
+		id: 1,
+		name: 'Mail This (Gmail)',
+		icon: chrome.extension.getURL('icons/gmail.png'),
+		callback: function(text){
+			var url = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&su=' +
+				'&body=' + encodeURIComponent(text);
+			chrome.tabs.create({url: url, selected: true});
+		}
+	});
+	
+	externalServices.push({
+		id: 2,
+		name: 'Tweet This (Twitter)',
+		icon: chrome.extension.getURL('icons/twitter.png'),
+		callback: function(text){
+			var url = 'http://twitter.com/?status=' +
+				encodeURIComponent(text);
+			chrome.tabs.create({url: url, selected: true});
+		}
+	});
+	
+	externalServices.push({
+		id: 3,
+		name: 'Blog This (Blogger)',
+		icon: chrome.extension.getURL('icons/blogger.png'),
+		callback: function(text){
+			var url = 'http://www.blogger.com/blog-this.g?t=' +
+				encodeURIComponent(text);
+			chrome.tabs.create({url: url, selected: true});
+		}
+	});
+</script>
+
 </head>
 <body></body>
 </html>

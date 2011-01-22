@@ -1,0 +1,296 @@
+
+-chui-image {
+	display: none;
+}
+
+-chui-image[src] {
+	display: inline-block;
+}
+
+/* button */
+
+.-chui-button {
+	position: relative;
+	margin: 0;
+	padding: 0.4em 0;
+	border: 1px solid #A0A0A0;
+	border-radius: 0.5em;
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		from(#F0F0F0), color-stop(0.4, #E0E0E0), to(#CFCFCF));
+	vertical-align: middle;
+	text-shadow: 1px 1px 0 #FFF;
+	cursor: pointer;
+	-webkit-box-sizing: border-box;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-transition: border-color 0.2s;
+	z-index: 0;
+}
+
+.-chui-button:hover {
+	border: 1px solid #888888;
+	z-index: 1;
+}
+
+.-chui-button:active {
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		from(#BBB), color-stop(0.4, #BEBEBE), to(#D0D0D0));
+	text-shadow: 1px 1px 0 #EEE;
+}
+
+.-chui-button > img {
+	display: none;
+}
+
+.-chui-button > img[src] {
+	display: inline-block;
+	margin: 0 0.4em;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+}
+
+.-chui-button > span {
+	display: inline-block;
+	margin: 0 0.8em;
+	vertical-align: middle;
+	text-overflow: ellipsis;
+}
+
+.-chui-button > span:empty {
+	margin: 0;
+}
+
+.-chui-button > img[src] + span:not(:empty) {
+	margin-left: 0.2em;
+}
+
+/* textBlock */
+
+.-chui-text-block {
+	-webkit-user-select: none;
+	cursor: default;
+	-webkit-box-sizing: border-box;
+	padding: 5px;
+}
+
+.-chui-text-block.selectable {
+	-webkit-user-select: text;
+	cursor: text;
+}
+
+/* checkButton */
+
+.-chui-check-button {
+	margin: 0;
+	padding: 0.4em 0;
+	border: 1px solid #A0A0A0;
+	border-radius: 0.5em;
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		from(#F0F0F0), color-stop(0.4, #E0E0E0), to(#CFCFCF));
+	vertical-align: middle;
+	text-shadow: 1px 1px 0 #FFF;
+	cursor: pointer;
+	-webkit-box-sizing: border-box;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-transition: border-color 0.2s;
+	text-align: center;
+}
+
+.-chui-check-button:hover {
+	border: 1px solid #888888;
+}
+
+.-chui-check-button:active, .-chui-check-button.-chui-checked {
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		from(#BBB), color-stop(0.4, #BEBEBE), to(#D0D0D0));
+	text-shadow: 1px 1px 0 #EEE;
+}
+
+.-chui-check-button > img {
+	display: none;
+}
+
+.-chui-check-button > img[src] {
+	display: inline-block;
+	margin: 0 0.4em;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+}
+
+.-chui-check-button > span {
+	display: inline-block;
+	margin: 0 0.8em;
+	vertical-align: middle;
+	text-overflow: ellipsis;
+}
+
+.-chui-check-button > span:empty {
+	margin: 0;
+}
+
+.-chui-check-button > img[src] + span:not(:empty) {
+	margin-left: 0.2em;
+}
+
+/* radioButton */
+
+.-chui-radio-button {
+	position: relative;
+	margin: 0;
+	padding: 0.4em 0;
+	border: 1px solid #A0A0A0;
+	border-radius: 0.5em;
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		from(#F0F0F0), color-stop(0.4, #E0E0E0), to(#CFCFCF));
+	vertical-align: middle;
+	text-align: center;
+	text-shadow: 1px 1px 0 #FFF;
+	cursor: pointer;
+	-webkit-box-sizing: border-box;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-transition: border-color 0.2s;
+	text-align: center;
+	z-index: 0;
+}
+
+.-chui-radio-button:hover {
+	border: 1px solid #888888;
+	z-index: 1;
+}
+
+.-chui-radio-button:active, .-chui-radio-button.-chui-checked {
+	background-image: -webkit-gradient(linear, left top, left bottom,
+		from(#BBB), color-stop(0.4, #BEBEBE), to(#D0D0D0));
+	text-shadow: 1px 1px 0 #EEE;
+}
+
+.-chui-radio-button > img {
+	display: none;
+}
+
+.-chui-radio-button > img[src] {
+	display: inline-block;
+	margin: 0 0.4em;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+}
+
+.-chui-radio-button > span {
+	display: inline-block;
+	margin: 0 0.8em;
+	vertical-align: middle;
+	text-overflow: ellipsis;
+}
+
+.-chui-radio-button > span:empty {
+	margin: 0;
+}
+
+.-chui-radio-button > img[src] + span:not(:empty) {
+	margin-left: 0.2em;
+}
+
+
+.-chui-linear {
+	display: inline-box;
+	display: -webkit-inline-box;
+	vertical-align: middle;
+}
+
+.-chui-linear.-chui-horizontal {
+	-webkit-box-orient: horizontal;
+}
+
+.-chui-linear.-chui-vertical {
+	-webkit-box-orient: vertical;
+}
+
+.-chui-linear > * {
+	display: block;
+	margin: 5px 5px 0 0;
+}
+
+.-chui-linear.-chui-horizontal > * {
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}
+
+.-chui-linear.-chui-vertical > * {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+}
+
+.-chui-linear.-chui-horizontal > :last-child {
+	margin-right: 0 !important;
+}
+
+.-chui-linear.-chui-vertical > :last-child {
+	margin-bottom: 0 !important;
+}
+
+.-chui-linear.-chui-horizontal > :first-child {
+	margin-left: 0 !important;
+}
+
+.-chui-linear.-chui-vertical > :first-child {
+	margin-top: 0 !important;
+}
+
+
+.-chui-tight.-chui-horizontal {
+	display: inline-box;
+	display: -webkit-inline-box;
+	vertical-align: middle;
+	-webkit-box-orient: horizontal;
+}
+
+.-chui-tight.-chui-horizontal > :not(:first-child):not(:last-child) {
+	display: block;
+	border-radius: 0;
+	margin-left: -1px;
+}
+
+.-chui-tight.-chui-horizontal > :first-child {
+	display: block;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.-chui-tight.-chui-horizontal > :last-child {
+	display: block;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-left: -1px;
+}
+
+.-chui-tight.-chui-vertical {
+	display: inline-box;
+	display: -webkit-inline-box;
+	vertical-align: middle;
+	-webkit-box-orient: vertical;
+}
+
+.-chui-tight.-chui-vertical > :not(:first-child):not(:last-child) {
+	display: block;
+	border-radius: 0;
+	margin-top: -1px;
+}
+
+.-chui-tight.-chui-vertical > :first-child {
+	display: block;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.-chui-tight.-chui-vertical > :last-child {
+	display: block;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-top: -1px;
+}
+

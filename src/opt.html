@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Chrome Pad Options</title>
-	<link rel="stylesheet" type="text/css" href="css/opt.css">
-	<script type="text/javascript" src="js/api.js"></script>
+	<link rel="stylesheet" href="css/opt.css">
+	<script src="js/pref.js"></script>
 </head>
 <body>
 	<header>
@@ -43,43 +43,34 @@
 	</section>
 	
 	<script type="text/javascript">
-		if(!location.hash)
-			location.hash = "#font";
+		if(!location.hash){
+			history.replaceState('font', '', 'opt.html#font');
+		}
 		
-		api.GetPref(function(pref){
-			var syncText = function(params){
-				var control = document.getElementById(params.id);
-				var key = params.key;
-				control.value = pref[key];
-				
-				var listener = function(){
-					api.SetPref(key, control.value);
-				};
-				
-				control.addEventListener('input', listener, false);
+		var pref = new Preference({prefix: 'pref-'});
+		
+		var syncText = function(params){
+			var control = document.getElementById(params.id);
+			var key = params.key;
+			control.value = pref.get(key, params.defaultValue || '');
+			
+			var listener = function(){
+				pref.set(key, control.value);
 			};
 			
-			var syncCheckbox = function(params){
-				var control = document.getElementById(params.id);
-				var key = params.key;
-				control.checked = pref[key];
-				
-				var listener = function(){
-					api.SetPref(key, control.checked);
-				};
-				
-				control.addEventListener('change', listener, false);
-			};
-			
-			syncText({
-				id: 'font-name-box',
-				key: 'font-name'
-			});
-			
-			syncText({
-				id: 'font-size-box',
-				key: 'font-size'
-			});
+			control.addEventListener('input', listener, false);
+		};
+		
+		syncText({
+			id: 'font-name-box',
+			key: 'font-name',
+			defaultValue: 'sans-serif'
+		});
+		
+		syncText({
+			id: 'font-size-box',
+			key: 'font-size',
+			defaultValue: '14px'
 		});
 	</script>
 </body>

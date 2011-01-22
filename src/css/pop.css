@@ -10,7 +10,7 @@ html, body {
 
 #wrapper {
 	margin: 0;
-	padding: 26px 0 0 0;
+	padding: 28px 0 0 0;
 	width: 100%;
 	height: 100%;
 	-webkit-user-select: none;
@@ -26,70 +26,19 @@ html, body {
 }
 
 #top-bar {
-	display: block;
-	margin: 0;
-	padding: 0;
 	position: absolute;
 	left: 0;
 	top: 0;
 }
 
-#top-bar > li {
-	display: inline-block;
-	margin: 0 2px 0 0;
-	padding: 0;
-	vertical-align: middle;
-}
-
 #top-right-bar {
-	display: block;
-	margin: 0;
-	padding: 0;
 	position: absolute;
 	right: 0;
 	top: 0;
-	height: 24px;
 }
 
-#top-right-bar > li {
-	display: inline-block;
-	margin: 0 0 0 2px;
-	padding: 0;
-	vertical-align: middle;
-}
-
-/* Tool Button */
-button {
-	margin: 0;
-	border: 1px solid #888;
-	border-radius: 5px;
-	padding: 0 3px;
-	height: 24px;
-	-webkit-transition: all 0.1s linear;
-	background: -webkit-gradient(linear, left top, left bottom,
-		from(#FFF), to(#CCC));
-}
-
-button:hover {
-	border: 1px solid #CA6;
-	-webkit-box-shadow: 0 0 5px #FC8;
-}
-
-button:active {
-	background: -webkit-gradient(linear, left top, left bottom,
-		from(#BBB), to(#EEE));
-}
-
-button > img {
-	vertical-align: middle;
-}
-
-button > span {
-	color: #282828;
-	text-shadow: 1px 1px 0 #FFF;
-	line-height: 22px;
-	vertical-align: middle;
-	margin: 0 2px;
+#top-bar > *, #top-right-bar > * {
+	margin-right: 2px;
 }
 
 /* Pad */
@@ -111,8 +60,11 @@ button > span {
 	position: absolute;
 	width: 300px;
 	height: 200px;
-	top: 30px;
+	left: 15px;
+	top: 36px;
 	background-color: #EEE;
+	z-index: 2;
+	-webkit-box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.3);
 }
 
 #share-popup-frame {
@@ -123,14 +75,14 @@ button > span {
 }
 
 #share-popup-border-o {
-	border-width: 0 10px 10px 10px;
+	border-width: 0 10px 12px 10px;
 	border-color: transparent transparent #888 transparent;
 	border-style: solid;
 	position: absolute;
 	width: 0;
 	height: 0;
-	left: 15px;
-	top: -10px;
+	left: 20px;
+	top: -12px;
 }
 
 #share-popup-border-i {
@@ -139,7 +91,7 @@ button > span {
 	height: 0;
 	left: -10px;
 	top: 1px;
-	border-width: 0 10px 10px 10px;
+	border-width: 0 10px 12px 10px;
 	border-color: transparent transparent #EEE transparent;
 	border-style: solid;
 }

@@ -4,25 +4,133 @@
 	<meta charset="utf-8" />
 	<title>Chrome Pad</title>
 	<link rel="stylesheet" type="text/css" href="css/pop.css">
-	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/pref.js"></script>
+	<script type="text/javascript" src="chui.js"></script>
+	<link rel="stylesheet" href="chui.css" />
 </head>
 <body>
+	<div id='share-popup'>
+		<iframe src="share.html" id="share-popup-frame"></iframe>
+		<div id='share-popup-border-o'>
+			<div id='share-popup-border-i'></div>
+		</div>
+	</div>
 	<div id="wrapper">
-		<div id="bar">			<ul id="top-bar"><li><button id="share-button">				<img src="icons/arrow.png" width="16" height="16">				<span>Share</span>				<div id='share-popup'>
-					<iframe src="share.html" id="share-popup-frame"></iframe>					<div id='share-popup-border-o'>						<div id='share-popup-border-i'></div>					</div>				</div>			</button></li><li><button id="clear-button">				<img src="icons/paper.png" width="16" height="16" />				<span>Clear</span>			</button></li><li><button id="paste-button">				<span>Paste Selection</span>			</button></li><li><button id="paste-url-button">				<span>Paste URL</span>			</button></li><li><button id="paste-title-button">				<span>Paste Title</span>			</button></li></ul>
-			<ul id="top-right-bar"><li><button id="option-button">
-				<img src="icons/gear.png" width="16" height="16" />
-			</button></li><li><button id="maximize-button">
-				<img src="icons/maximize.png" width="16" height="16" />
-			</button></li><li><button id="close-button">				<img src="icons/cross.png" width="16" height="16" />			</button></li></ul>		</div>		<iframe src="pad.html" id="pad" class="border-box"></iframe>	</div>
+		<div id="bar"></div>
+		<iframe src="pad.html" id="pad" class="border-box"></iframe>
+	</div>
 	<script type="text/javascript">
+		var pref = new Preference({prefix: 'pref-'});
+		var bar = document.getElementById('bar');
+		
+		chui({
+			type: 'linear',
+			id: 'top-bar',
+			contents: [{
+				type: 'checkButton',
+				id: 'share-button',
+				text: 'Share',
+				image: {url: 'icons/arrow.png', width: 16, height: 16},
+				height: 26,
+				onCheck: function(){
+					sharePopup.Show();
+				},
+				onUncheck: function(){
+					sharePopup.Hide();
+				}
+			}, {
+				type: 'button',
+				id: 'clear-button',
+				text: 'Clear',
+				image: {url: 'icons/paper.png', width: 16, height: 16},
+				height: 26,
+				onClick: function(){
+					chui($id('share-button')).uncheck();
+					Text.Clear();
+				}
+			}, {
+				type: 'tight',
+				id: 'paste-button-list',
+				contents: [{
+					type: 'button',
+					id: 'paste-button',
+					text: 'Paste Selection',
+					height: 26,
+					onClick: function(){
+						chui($id('share-button')).uncheck();
+						PasteSelection('selection');
+					}
+				}, {
+					type: 'button',
+					id: 'paste-url-button',
+					text: 'Paste URL',
+					height: 26,
+					onClick: function(){
+						chui($id('share-button')).uncheck();
+						PasteSelection('url');
+					}
+				}, {
+					type: 'button',
+					id: 'paste-title-button',
+					text: 'Paste Title',
+					height: 26,
+					onClick: function(){
+						chui($id('share-button')).uncheck();
+						PasteSelection('title');
+					}
+				}]
+			}]
+		}).appendTo(bar);
+		
+		chui({
+			type: 'linear',
+			id: 'top-right-bar',
+			contents: [{
+				type: 'button',
+				id: 'option-button',
+				image: {url: 'icons/gear.png', width: 16, height: 16},
+				width: 26,
+				height: 26,
+				onClick: function(){
+					chui($id('share-button')).uncheck();
+					chrome.tabs.create({
+						url: chrome.extension.getURL('opt.html'),
+						selected: true
+					});
+					window.close();
+				}
+			}, {
+				type: 'button',
+				id: 'maximize-button',
+				image: {url: 'icons/maximize.png', width: 16, height: 16},
+				width: 26,
+				height: 26,
+				onClick: function(){
+					chui($id('share-button')).uncheck();
+					chrome.tabs.create({
+						url: chrome.extension.getURL('pop.html#m'),
+						selected: true
+					});
+					window.close();
+				}
+			}, {
+				type: 'button',
+				id: 'close-button',
+				image: {url: 'icons/cross.png', width: 16, height: 16},
+				width: 26,
+				height: 26,
+				onClick: function(){
+					chui($id('share-button')).uncheck();
+					window.close();
+				}
+			}]
+		}).appendTo(bar);
+		
 		var $id = function(id){
 			return document.getElementById(id);
 		};
 		
-		var sharePopup = (function(){
-			var sharePopup = document.getElementById('share-popup');
-			
+		var sharePopup = (function(sharePopup){
 			sharePopup.addEventListener('click', function(e){
 				e.stopPropagation();
 			}, false);
@@ -40,7 +148,7 @@
 					}
 				}
 			};
-		})();
+		})(document.getElementById('share-popup'));
 		
 		function ShowHelp(){
 			alert([
@@ -62,9 +170,7 @@
 			body.borderWidth = '1px 0 0 0';
 			
 			$id('maximize-button').style.display = 'none';
-			$id('paste-button').style.display = 'none';
-			$id('paste-url-button').style.display = 'none';
-			$id('paste-title-button').style.display = 'none';
+			$id('paste-button-list').style.display = 'none';
 			
 			var bar = $id('bar');
 			bar.style.left = '1px';
@@ -74,7 +180,7 @@
 		
 		// Hide Share Popup
 		document.addEventListener('click', function(){
-			sharePopup.Hide();
+			chui($id('share-button')).uncheck();
 		}, false);
 		
 		// Unable Context-Menu
@@ -82,152 +188,108 @@
 			e.preventDefault();
 		}, false);
 		
-		window.addEventListener('load', function(){
-			var pad = frames[1];
-			var padDoc = pad.document;
-			var area = padDoc.getElementById('area');
-			
-			var Text = {
-				Save: function(){
-					api.SetText({
-						text: area.value,
-						start: area.selectionStart,
-						end: area.selectionEnd,
-						top: area.scrollTop
-					});
-					Text.Focus();
-				},
-				Clear: function(){
-					if(area.value == '')
-						return;
-					if(confirm('Clear Text, OK?')){
-						area.value = '';
-						actions.SaveText();
-					}
-				},
-				Insert: function(text){
-					var value = new String(area.value);
-					var start = area.selectionStart;
-					var end = area.selectionEnd;
-					
-					area.value = value.slice(0, start) + text +
-						value.slice(end, value.length);
-					area.selectionStart = area.selectionEnd =
-						start + text.length;
-					
+		var pad, padDoc, area;
+		
+		var Text = {
+			Save: function(){
+				pref.set('text', area.value);
+				pref.set('start', area.selectionStart);
+				pref.set('end', area.selectionEnd);
+				pref.set('top', area.scrollTop);
+				Text.Focus();
+			},
+			Clear: function(){
+				if(area.value == '')
+					return;
+				if(confirm('Clear Text, OK?')){
+					area.value = '';
 					Text.Save();
-				},
-				Focus: function(){
-					pad.focus();
-					area.focus();
 				}
-			};
-			
-			api.GetPref(function(pref){
-				area.style.fontFamily = pref['font-name'];
-				area.style.fontSize = pref['font-size'];
+			},
+			Insert: function(text){
+				var value = new String(area.value);
+				var start = area.selectionStart;
+				var end = area.selectionEnd;
+				
+				area.value = value.slice(0, start) + text +
+					value.slice(end, value.length);
+				area.selectionStart = area.selectionEnd =
+					start + text.length;
+				
+				Text.Save();
+			},
+			Focus: function(){
+				pad.focus();
+				area.focus();
+			}
+		};
+		
+		var PasteSelection = function(type){
+			chrome.tabs.getSelected(null, function(tab){
+				if(type === 'url'){
+					Text.Insert(tab.url);
+				}else if(type === 'title'){
+					Text.Insert(tab.title || '');
+				}else{
+					chrome.tabs.sendRequest(tab.id, {
+						method: 'GetSelection',
+						params: []
+					}, function(selection){
+						Text.Insert(selection);
+					});
+				}
 			});
+		};
+		
+		window.addEventListener('load', function(){
+			pad = frames[1];
+			padDoc = pad.document;
+			area = padDoc.getElementById('area');
 			
-			api.GetText(function(value){
-				area.value = value.text;
-				area.setSelectionRange(value.start, value.end);
-				area.scrollTop = value.top;
-			});
+			var fontFamily = pref.get('font-name', 'sans-serif');
+			area.style.fontFamily = fontFamily;
+			area.style.fontSize = pref.get('font-size', '14px');
+			
+			if(pad.getComputedStyle(area, '').fontFamily !== fontFamily){
+				location.reload();
+				return;
+			}
+			
+			area.value = pref.get('text', localStorage['text'] || '');
+			area.setSelectionRange(pref.get('start', 0), pref.get('end', 0));
+			area.scrollTop = pref.get('top', 0);
 			
 			// Save Text
 			var TextChangeListener = function(e){
 				// 非同期にしないとinputイベント時点でのカーソル位置が古いものになる
-				window.setTimeout(function(){
-					Text.Save();
-				}, 0);
+				window.setTimeout(Text.Save.bind(Text), 0);
 			};
-			
 			area.addEventListener('input', TextChangeListener, false);
 			area.addEventListener('click', TextChangeListener, false);
 			area.addEventListener('contextmenu', TextChangeListener, false);
 			area.addEventListener('scroll', TextChangeListener, false);
 			
-			// Paste Clipboard
+			// クリップボードからペースト
 			area.addEventListener('paste', function(e){
 				Text.Insert(e.clipboardData.getData('Text'));
 				e.preventDefault();
 			}, false);
 			
-			// Hide Share Popup
+			// シェアポップアップを隠す
 			padDoc.addEventListener('click', function(){
-				sharePopup.Hide();
+				chui($id('share-button')).uncheck();
 			}, false);
-			
-			$id('share-button').addEventListener('click', function(e){
-				if(!sharePopup.Showed)
-					e.stopPropagation();
-				sharePopup.Show();
-			}, false);
-			
-			$id('clear-button').addEventListener('click', function(){
-				sharePopup.Hide();
-				Text.Clear();
-			}, false);
-			
-			var PasteSelection = function(type){
-				sharePopup.Hide();
-				if(type === 'selection')
-					api.GetSelection(function(selection){
-						Text.Insert(selection);
-					});
-				else if(type === 'url')
-					api.GetSelectedTab(function(tab){
-						Text.Insert(tab.url);
-					});
-				else if(type === 'title')
-					api.GetSelectedTab(function(tab){
-						Text.Insert(tab.title || '');
-					});
-			};
-			
-			$id('paste-button').addEventListener('click', function(){
-				PasteSelection('selection');
-			}, false);
-			
-			$id('paste-url-button').addEventListener('click', function(){
-				PasteSelection('url');
-			});
-			
-			$id('paste-title-button').addEventListener('click', function(){
-				PasteSelection('title');
-			});
-			
-			$id('option-button').addEventListener('click', function(){
-				sharePopup.Hide();
-				api.CreateTab(chrome.extension.getURL('opt.html'));
-				window.close();
-			});
-			
-			$id('maximize-button').addEventListener('click', function(){
-				sharePopup.Hide();
-				api.CreateTab(chrome.extension.getURL('pop.html#m'));
-				window.close();
-			});
-			
-			function CloseWindow(){
-				sharePopup.Hide();
-				window.close();
-			}
-			
-			$id('close-button').addEventListener('click', function(){
-				CloseWindow();
-			});
 		
 			// Key Bind
 			var keyBind = {
 				'Tab': function(){ Text.Insert('\t'); },
-				'Enter': function(){ Text.Insert('\n'); },
+				// 'Enter': function(){ Text.Insert('\n'); },
 				'Ctrl + L': function(){ Text.Clear(); },
 				'Ctrl + S': function(){ sharePopup.Show(); },
 				'Ctrl + T': function(){ PasteSelection('title'); },
 				'Ctrl + U': function(){ PasteSelection('url'); },
 				'Ctrl + P': function(){ PasteSelection('selection'); },
-				'Ctrl + W': CloseWindow,
+				'Ctrl + W': function(){ window.close(); },
 				'Ctrl + /': ShowHelp,
 				'Shift + Ctrl + /': ShowHelp
 			};
@@ -236,18 +298,12 @@
 			var KeyDownListener = function(e){
 				var code = e.keyCode;
 				var builder = [];
-				
-				if(e.altKey)
-					builder.push('Alt +');
-				if(e.shiftKey)
-					builder.push('Shift +');
-				if(e.ctrlKey)
-					builder.push('Ctrl +');
-					
+				if(e.altKey) builder.push('Alt');
+				if(e.shiftKey) builder.push('Shift');
+				if(e.ctrlKey) builder.push('Ctrl');
 				builder.push(keyCodeTable[code] || String.fromCharCode(code));
 				
-				var key = builder.join(' ');
-				
+				var key = builder.join(' + ');
 				if(key in keyBind){
 					keyBind[key]();
 					e.preventDefault();

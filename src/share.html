@@ -1,1 +1,32 @@
-<!DOCTYPE html><html lang="ja"><head>	<meta charset="utf-8" />	<link rel="stylesheet" type="text/css" href="css/share.css">	<script type="text/javascript" src="js/api.js"></script></head><body>	<div id="item-template">		<button>Template</button>	</div>	<script type="text/javascript">		var temp = document.getElementById('item-template');		temp.normalize();				api.GetExternalServices(function(services){			services.forEach(function(service){				var item = temp.cloneNode(true);				item.id = '';				item.className = 'item';				var btn = item.getElementsByTagName('button')[0];				btn.textContent = service.name;				btn.addEventListener('click', function(){					api.ShareTextToExternalService(service.id);					window.top.close();				}, false);				if(service.icon){					var icon = document.createElement('img');					icon.src = service.icon;					icon.setAttribute('width', '24');					icon.setAttribute('height', '24');					btn.insertBefore(icon, btn.firstChild);				}				document.body.appendChild(item);			});		});	</script></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="css/share.css">
+	<script src="js/pref.js"></script>
+	<script src="chui.js"></script>
+	<link rel="stylesheet" href="chui.css">
+</head>
+<body>
+	<script type="text/javascript">
+		var backgroundPage = chrome.extension.getBackgroundPage();
+		var pref = new Preference({prefix: 'pref-'});
+		window.addEventListener('load', function(){
+			backgroundPage.externalServices.forEach(function(service){
+				var item = chui({
+					type: 'button',
+					image: {url: service.icon, width: 24, height: 24},
+					width: 300,
+					text: service.name,
+					onClick: function(){
+						service.callback(pref.get('text', ''));
+						window.top.close();
+					}
+				});
+				item.font.size = '16px';
+				item.appendTo(document.body);
+			});
+		}, false);
+	</script>
+</body>
+</html>
