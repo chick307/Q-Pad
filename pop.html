@@ -94,7 +94,7 @@
 				onClick: function(){
 					chui($id('share-button')).uncheck();
 					chrome.tabs.create({
-						url: chrome.extension.getURL('opt.html'),
+						url: chrome.extension.getURL('/views/option.html'),
 						selected: true
 					});
 					window.close();
