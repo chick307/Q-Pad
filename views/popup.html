@@ -132,16 +132,16 @@
 			font-size: 14px;
 		}
 
-		#share-dialog > ul {
+		#share-dialog > ul, #paste-dialog > ul {
 			box-orient: vertical;
 			-webkit-box-orient: vertical;
 		}
 
-		#share-dialog > ul > li {
+		#share-dialog > ul > li, #paste-dialog > ul > li {
 			margin: 4px;
 		}
 
-		#share-dialog > ul > li > button {
+		#share-dialog > ul > li > button, #paste-dialog > ul > li > button {
 			padding: 2px;
 			width: 100%;
 		}
@@ -192,6 +192,14 @@
 				<li class="space">
 				<li><button id="clear-cancel"><span>Cancel</span></button>
 				<li><button id="clear-ok"><span>OK</span></button>
+			</ul>
+		</div>
+		<div id="paste-dialog" class="dialog">
+			<ul>
+				<li><button id="paste-url"><span>Paste URL</span></button>
+				<li><button id="paste-title"><span>Paste Title</span></button>
+				<li><button id="paste-selection"><span>Paste Selection</span></button>
+				<li><button id="paste-cancel"><span>Cancel</span></button>
 			</ul>
 		</div>
 	</div>
@@ -248,6 +256,50 @@
 				textarea.save();
 				textarea.focus();
 				Q('#clear-dialog').classList.remove('visible');
+				Q('#black').classList.remove('visible');
+			}, false);
+
+
+			Q('#paste-button').addEventListener('click', function(){
+				Q('#black').classList.add('visible');
+				Q('#paste-dialog').classList.add('visible');
+			}, false);
+
+			Q('#paste-url').addEventListener('click', function(){
+				chrome.tabs.getSelected(null, function(tab){
+					textarea.insert(tab.url);
+				});
+				textarea.focus();
+				Q('#paste-dialog').classList.remove('visible');
+				Q('#black').classList.remove('visible');
+			}, false);
+
+			Q('#paste-title').addEventListener('click', function(){
+				chrome.tabs.getSelected(null, function(tab){
+					textarea.insert(tab.title || '');
+				});
+				textarea.focus();
+				Q('#paste-dialog').classList.remove('visible');
+				Q('#black').classList.remove('visible');
+			}, false);
+
+			Q('#paste-selection').addEventListener('click', function(){
+				chrome.tabs.getSelected(null, function(tab){
+					chrome.tabs.sendRequest(tab.id, {
+						method: 'GetSelection',
+						params: []
+					}, function(selection){
+						textarea.insert(selection);
+					});
+				});
+				textarea.focus();
+				Q('#paste-dialog').classList.remove('visible');
+				Q('#black').classList.remove('visible');
+			}, false);
+
+			Q('#paste-cancel').addEventListener('click', function(){
+				textarea.focus();
+				Q('#paste-dialog').classList.remove('visible');
 				Q('#black').classList.remove('visible');
 			}, false);
 

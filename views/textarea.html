@@ -72,7 +72,7 @@
 			var start = textarea.selectionStart;
 			var end = textarea.selectionEnd;
 
-			area.value = value.slice(0, start) + text +
+			textarea.value = value.slice(0, start) + text +
 				value.slice(end, value.length);
 
 			textarea.selectionStart = textarea.selectionEnd =
