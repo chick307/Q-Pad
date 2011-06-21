@@ -131,6 +131,29 @@
 		.dialog > ul > li > button {
 			font-size: 14px;
 		}
+
+		#share-dialog > ul {
+			box-orient: vertical;
+			-webkit-box-orient: vertical;
+		}
+
+		#share-dialog > ul > li {
+			margin: 4px;
+		}
+
+		#share-dialog > ul > li > button {
+			padding: 2px;
+			width: 100%;
+		}
+
+		#share-dialog > ul > li > button > span {
+			padding: 0 0.5em;
+		}
+
+		#share-dialog > ul > li > button > img {
+			width: 24px;
+			height: 24px;
+		}
 	</style>
 </head>
 <body>
@@ -158,6 +181,11 @@
 	<iframe src="textarea.html"></iframe>
 
 	<div id="black">
+		<div id="share-dialog" class="dialog">
+			<ul>
+				<li><button id="share-cancel"><span>Cancel</span></button>
+			</ul>
+		</div>
 		<div class="dialog" id="clear-dialog">
 			<div>Clear all text</div>
 			<ul>
@@ -189,7 +217,16 @@
 
 
 			Q('#share-button').addEventListener('click', function(){
-				console.log('share');
+				if(!textarea.isEmpty()){
+					Q('#black').classList.add('visible');
+					Q('#share-dialog').classList.add('visible');
+				}
+			}, false);
+
+			Q('#share-cancel').addEventListener('click', function(){
+				textarea.focus();
+				Q('#share-dialog').classList.remove('visible');
+				Q('#black').classList.remove('visible');
 			}, false);
 
 
@@ -223,6 +260,28 @@
 			Q('#close-button').addEventListener('click', function(){
 				close();
 			}, false);
+
+			var fragment = document.createDocumentFragment();
+			backgroundPage.externalServices.forEach(function(service){
+				var item = document.createElement('li');
+				item.style.fontSize = '16px';
+				var button = document.createElement('button');
+				var image = document.createElement('img');
+				image.src = service.icon;
+				var name = document.createElement('span');
+				name.textContent = service.name;
+				button.appendChild(image);
+				button.appendChild(name);
+				item.appendChild(button);
+				fragment.appendChild(item);
+
+				button.addEventListener('click', function(){
+					service.callback(pref.get('text', ''));
+					close();
+				}, false);
+			});
+			var shareList = Q('#share-dialog > ul');
+			shareList.insertBefore(fragment, shareList.firstElementChild);
 		});
 
 		function Q(selector){
