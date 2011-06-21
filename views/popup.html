@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html id="m">
 <head>
 	<meta charset="utf-8">
 	<style>
@@ -8,6 +8,11 @@
 			height: 372px;
 			user-select: none;
 			-webkit-user-select: none;
+		}
+
+		html:target {
+			width: 100%;
+			height: 100%;
 		}
 
 		body {
@@ -154,6 +159,15 @@
 			width: 24px;
 			height: 24px;
 		}
+
+		html:target #paste-button,
+		html:target #maximize-button {
+			display: none;
+		}
+
+		html:target > body > ul {
+			padding: 2px 1px 0;
+		}
 	</style>
 </head>
 <body>
@@ -170,6 +184,9 @@
 			<span>Paste</span>
 		</button>
 		<li class="space">
+		<li><button id="maximize-button">
+			<img src="/icons/maximize.png" alt="">
+		</button>
 		<li><button id="option-button">
 			<img src="/icons/gear.png" alt="">
 		</button>
@@ -304,9 +321,16 @@
 			}, false);
 
 
+			Q('#maximize-button').addEventListener('click', function(){
+				window.open(
+					chrome.extension.getURL('/views/popup.html') + '#m');
+				close();
+			}, false);
+
 			Q('#option-button').addEventListener('click', function(){
 				window.open(chrome.extension.getURL('/views/option.html'));
-				close();
+				if(!Q('html:target'))
+					close();
 			}, false);
 
 			Q('#close-button').addEventListener('click', function(){
@@ -329,7 +353,8 @@
 
 				button.addEventListener('click', function(){
 					service.callback(pref.get('text', ''));
-					close();
+					if(!Q('html:target'))
+						close();
 				}, false);
 			});
 			var shareList = Q('#share-dialog > ul');
