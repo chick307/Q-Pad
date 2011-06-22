@@ -10,6 +10,11 @@
 			-webkit-user-select: none;
 		}
 
+		html.small {
+			width: 420px;
+			height: 260px;
+		}
+
 		html:target {
 			width: 100%;
 			height: 100%;
@@ -113,6 +118,11 @@
 			border: 1px solid rgba(0, 0, 0, 0.4);
 			border-radius: 5px;
 			background: #FFF;
+		}
+
+		html.small .dialog {
+			left: 60px;
+			top: 30px;
 		}
 
 		.dialog.visible {
@@ -224,6 +234,18 @@
 	<script>
 		var backgroundPage = chrome.extension.getBackgroundPage();
 		var pref = backgroundPage.pref;
+
+		var popupSize = pref.get('popup-size', '1');
+		if(!location.hash){
+			switch(popupSize){
+				case '0':
+					Q('html').classList.add('small');
+					break;
+				case '2':
+					open(chrome.extension.getURL('views/popup.html') + '#m');
+					close();
+			}
+		}
 
 		window.addEventListener('load', function(){
 			var frame = Q('iframe');
