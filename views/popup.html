@@ -190,6 +190,18 @@
 			outline: none;
 			box-shadow: 0 0 2px 2px rgba(255, 192, 0, 0.6);
 		}
+
+
+		#help-dialog > ul:first-of-type {
+			-webkit-box-orient: vertical;
+			margin: 0 0 16px;
+			font-size: 12px;
+		}
+
+		#help-dialog > ul:first-of-type > li {
+			-webkit-columns: 2;
+			text-align: center;
+		}
 	</style>
 </head>
 <body>
@@ -242,6 +254,21 @@
 				<li><button id="paste-cancel"><span>Cancel</span></button>
 			</ul>
 		</div>
+		<div id="help-dialog" class="dialog">
+			<div>Shortcut Keys</div>
+			<ul>
+				<li>Share<br>Ctrl + S</li>
+				<li>Clear<br>Ctrl + L</li>
+				<li>Paste URL<br>Ctrl + U</li>
+				<li>Paste Title<br>Ctrl + T</li>
+				<li>Paste Selection<br>Ctrl + P</li>
+			</ul>
+			<ul>
+				<li class="space">
+				<li><button id="help-close"><span>Close</span></button>
+				<li class="space">
+			</ul>
+		</div>
 	</div>
 
 	<script>
@@ -284,6 +311,8 @@
 						click('#clear-cancel');
 					}else if(Q('#paste-dialog.visible')){
 						click('#paste-cancel');
+					}else if(Q('#help-dialog.visible')){
+						click('#help-close');
 					}
 				}
 			}, false);
@@ -388,6 +417,13 @@
 			}, false);
 
 
+			Q('#help-close').addEventListener('click', function(){
+				textarea.focus();
+				Q('#help-dialog').classList.remove('visible');
+				Q('#black').classList.remove('visible');
+			}, false);
+
+
 			Q('#maximize-button').addEventListener('click', function(){
 				window.open(
 					chrome.extension.getURL('/views/popup.html') + '#m');
@@ -440,6 +476,12 @@
 			var shareList = Q('#share-dialog > ul');
 			shareList.insertBefore(fragment, shareList.firstElementChild);
 		});
+
+		window.showHelp = function(){
+			Q('#black').classList.add('visible');
+			Q('#help-dialog').classList.add('visible');
+			Q('#help-dialog button').focus();
+		};
 
 		function Q(selector){
 			return document.querySelector(selector);

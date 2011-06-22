@@ -57,6 +57,12 @@
 				case 'U+0009':
 					insert('\t');
 					break;
+				case Key('/'):
+				case Key('?'):
+					if(c){
+						top.showHelp();
+						break;
+					}
 				case Key('L'):
 					if(c){
 						top.click('#clear-button');
