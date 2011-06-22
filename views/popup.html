@@ -184,6 +184,12 @@
 
 		html:target > body > iframe {
 			border-width: 1px 0 0 0;
+		}
+
+		ul > li > button:focus {
+			outline: none;
+			box-shadow: 0 0 2px 2px rgba(255, 192, 0, 0.6);
+		}
 	</style>
 </head>
 <body>
@@ -267,12 +273,26 @@
 
 			Q('#black').addEventListener('click', function(e){
 				e.preventDefault();
+				e.stopPropagation();
+			}, false);
+
+			Q('#black').addEventListener('keydown', function(e){
+				if(e.keyIdentifier === 'U+001B'){
+					if(Q('#share-dialog.visible')){
+						click('#share-cancel');
+					}else if(Q('#clear-dialog.visible')){
+						click('#clear-cancel');
+					}else if(Q('#paste-dialog.visible')){
+						click('#paste-cancel');
+					}
+				}
 			}, false);
 
 
 			Q('#share-button').addEventListener('click', function(){
 				Q('#black').classList.add('visible');
 				Q('#share-dialog').classList.add('visible');
+				Q('#share-dialog button').focus();
 			}, false);
 
 			Q('#share-cancel').addEventListener('click', function(){
@@ -281,10 +301,18 @@
 				Q('#black').classList.remove('visible');
 			}, false);
 
+			Q('#share-cancel').addEventListener('keydown', function(event){
+				if(event.keyIdentifier === 'Up'){
+					Q('#share-dialog li:nth-last-child(2) > button').focus();
+					event.preventDefault();
+				}
+			}, false);
+
 
 			Q('#clear-button').addEventListener('click', function(){
 				Q('#black').classList.add('visible');
 				Q('#clear-dialog').classList.add('visible');
+				Q('#clear-cancel').focus();
 			}, false);
 
 			Q('#clear-cancel').addEventListener('click', function(){
@@ -293,12 +321,26 @@
 				Q('#black').classList.remove('visible');
 			}, false);
 
+			Q('#clear-cancel').addEventListener('keydown', function(event){
+				if(event.keyIdentifier === 'Right'){
+					Q('#clear-ok').focus();
+					event.preventDefault();
+				}
+			}, false);
+
 			Q('#clear-ok').addEventListener('click', function(){
 				textarea.clear();
 				textarea.save();
 				textarea.focus();
 				Q('#clear-dialog').classList.remove('visible');
 				Q('#black').classList.remove('visible');
+			}, false);
+
+			Q('#clear-ok').addEventListener('keydown', function(event){
+				if(event.keyIdentifier === 'Left'){
+					Q('#clear-cancel').focus();
+					event.preventDefault();
+				}
 			}, false);
 
 
@@ -381,6 +423,19 @@
 					if(!Q('html:target'))
 						close();
 				}, false);
+
+				button.addEventListener('keydown', function(event){
+					var sibling;
+
+					if(event.keyIdentifier === 'Up'){
+						sibling = item.previousElementSibling;
+					}else if(event.keyIdentifier === 'Down'){
+						sibling = item.nextElementSibling;
+					}
+
+					if(sibling)
+						sibling.querySelector('button').focus();
+				}, false);
 			});
 			var shareList = Q('#share-dialog > ul');
 			shareList.insertBefore(fragment, shareList.firstElementChild);
@@ -388,6 +443,12 @@
 
 		function Q(selector){
 			return document.querySelector(selector);
+		}
+
+		function click(selector){
+			var event = document.createEvent('Event');
+			event.initEvent('click', false, false);
+			Q(selector).dispatchEvent(event);
 		}
 	</script>
 </body>
