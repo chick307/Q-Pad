@@ -39,6 +39,17 @@
 		<span id="font-size-msg">saved</span>
 	</ul>
 
+	<h1>Popup</h1>
+	<ul>
+		<li><label for="popup-size-box">Size</label>
+		<select id="popup-size-box">
+			<option value="0">small</option>
+			<option value="1">normal</option>
+			<option value="2">always open in tab</option>
+		</select>
+		<span id="popup-size-msg">saved</span>
+	</ul>
+
 	<script type="text/javascript">
 		var backgroundPage = chrome.extension.getBackgroundPage();
 		var pref = backgroundPage.pref;
@@ -64,6 +75,17 @@
 			pref.set('font-size', value);
 
 			var msg = Q('#font-size-msg');
+			onSaved(msg);
+		}, false);
+
+
+		var popupSizeBox = Q('#popup-size-box');
+		popupSizeBox.value = pref.get('popup-size', '1');
+		popupSizeBox.addEventListener('change', function(){
+			var value = this.value;
+			pref.set('popup-size', String(value));
+
+			var msg = Q('#popup-size-msg');
 			onSaved(msg);
 		}, false);
 
