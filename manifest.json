@@ -1,5 +1,5 @@
 {
-	"name": "Chrome Pad",
+	"name": "Q Pad",
 	"version": "0.0.3.2",
 	"description": "The simple notepad.",
 	
@@ -27,7 +27,7 @@
 	"options_page": "views/option.html",
 	
 	"browser_action": {
-		"default_title": "Chrome Pad",
+		"default_title": "Q Pad",
 		"default_icon": "icons/icon19.png",
 		"popup": "views/popup.html"
 	}
