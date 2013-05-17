@@ -130,6 +130,7 @@
 			display: block;
 		}
 	</style>
+	<script src="./option.js" async></script>
 </head>
 <body>
 	<header class="appearance">
@@ -146,18 +147,5 @@
 		</iframe>
 		<iframe id="about-frame" src="/views/option/about.html"></iframe>
 	</section>
-
-	<script>
-		['appearance', 'about'].forEach(function(id){
-			Q('#' + id).addEventListener('click', function(){
-				Q('header').className = id;
-			}, false);
-		});
-
-		function Q(selector){
-			return document.querySelector(selector);
-		}
-	</script>
 </body>
 </html>
-
