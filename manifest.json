@@ -5,34 +5,30 @@
 	"description": "The simple notepad.",
 
 	"icons": {
-		"16": "icons/icon16.png",
-		"128": "icons/icon128.png"
+		"16": "images/qpad-16.png",
+		"128": "images/qpad-128.png"
 	},
 
 	"permissions": [
 		"tabs",
-		"http://*/",
-		"https://*/"
+		"*://*/*"
 	],
 
 	"background": {
-		"scripts": ["js/pref.js", "js/back.js"],
-		"persistent": true
+		"persistent": true,
+		"scripts": [
+			"vendor/angular/angular.js",
+			"scripts/events.js",
+			"scripts/wrapped-storage.js",
+			"scripts/app.js",
+			"scripts/background.js"
+		]
 	},
-
-	"content_scripts": [
-		{
-			"matches": ["*://*/*"],
-			"css": [],
-			"js": ["js/content.js"]
-		}
-	],
 
 	"browser_action": {
 		"default_title": "Q Pad",
-		"default_icon": "icons/icon19.png",
-		"default_popup": "views/popup.html"
+		"default_icon": "images/qpad-19.png"
 	},
 
-	"options_page": "views/option.html"
+	"options_page": "options-page/index.html"
 }
