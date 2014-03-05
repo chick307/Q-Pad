@@ -1,6 +1,6 @@
 {
 	"name": "Q-Pad",
-	"version": "0.0.3",
+	"version": "1.0.0",
 	"dependencies": {
 		"grunt": "~0.4.1",
 		"grunt-zip": "~0.7.0"
