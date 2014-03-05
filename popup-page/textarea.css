@@ -1,0 +1,30 @@
+/*
+ * (C) 2013 chick307 <chick307@gmail.com>
+ *
+ * Licensed under the MIT License.
+ * http://opensource.org/licenses/mit-license
+ */
+
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+textarea {
+	display: block;
+	box-sizing: border-box;
+	outline: none;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+	padding: 4px;
+	line-height: 1.5;
+	resize: none;
+}

@@ -1,4 +1,4 @@
 .*
-Icon*
-*.zip
-
+!.gitignore
+node_modules
+dist.zip

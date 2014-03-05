@@ -1,34 +1,34 @@
 {
+	"manifest_version": 2,
 	"name": "Q Pad",
-	"version": "0.0.3.2",
+	"version": "1.0.0",
 	"description": "The simple notepad.",
-	
+
 	"icons": {
-		"16": "icons/icon16.png",
-		"128": "icons/icon128.png"
+		"16": "images/qpad-16.png",
+		"128": "images/qpad-128.png"
 	},
-	
+
 	"permissions": [
 		"tabs",
-		"http://*/",
-		"https://*/"
+		"*://*/*"
 	],
-	
-	"background_page": "back.html",
-	
-	"content_scripts": [
-		{
-			"matches": ["http://*/*", "https://*/*"],
-			"css": [],
-			"js": ["js/content.js"]
-		}
-	],
-	
-	"options_page": "views/option.html",
-	
+
+	"background": {
+		"persistent": true,
+		"scripts": [
+			"vendor/angular/angular.js",
+			"scripts/events.js",
+			"scripts/wrapped-storage.js",
+			"scripts/app.js",
+			"scripts/background.js"
+		]
+	},
+
 	"browser_action": {
 		"default_title": "Q Pad",
-		"default_icon": "icons/icon19.png",
-		"popup": "views/popup.html"
-	}
+		"default_icon": "images/qpad-19.png"
+	},
+
+	"options_page": "options-page/index.html"
 }

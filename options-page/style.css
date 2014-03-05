@@ -1,0 +1,90 @@
+/*
+ * (C) 2013 chick307 <chick307@gmail.com>
+ *
+ * Licensed under the MIT License.
+ * http://opensource.org/licenses/mit-license
+ */
+
+body {
+	margin: 16px 0;
+	background-color: #F8F8F8;
+	font: 300 14px Helvetica, Arial, sans-serif;
+}
+
+.container {
+	margin: 1em auto;
+	border: 1px solid #E0E0E0;
+	border-radius: 3px;
+	padding: 12px 12px 24px;
+	width: 600px;
+	background-color: #FFF;
+	box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.03);
+	color: #444;
+}
+
+h1 {
+	margin: 0;
+	text-align: center;
+	font-weight: 300;
+	font-size: 20px;
+	line-height: 2;
+}
+
+h1 > img {
+	display: block;
+	margin: auto;
+}
+
+h2 {
+	margin: 24px 24px 16px;
+	padding-left: 4px;
+	border-bottom: 1px dotted #CCC;
+	font-weight: 300;
+	font-size: 18px;
+}
+
+.section {
+	margin: 0 32px;
+	line-height: 2.4;
+}
+
+.subsection {
+	margin-top: -2px;
+	margin-left: 32px;
+}
+
+.footer {
+	margin: auto;
+	padding: 0 1em;
+	width: 602px;
+	font: 12px/1.6 Helvetica, Arial, sans-serif;
+	color: #666;
+	text-align: center;
+}
+
+.footer a {
+	color: #08C;
+	text-decoration: none;
+}
+
+.footer a:hover {
+	text-decoration: underline;
+}
+
+.github-ribbon {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: 0;
+}
+
+[saved-msg] {
+	margin: 0.5em;
+	border-radius: 1em;
+	padding: 1px 0.8em;
+	background: #2B6;
+	font-size: 12px;
+	color: #FFF;
+	opacity: 0;
+	transition: opacity 0.3s;
+}

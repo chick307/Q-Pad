@@ -1,0 +1,89 @@
+From d519953a4b219035587e3fcb2e9cc52e02b408ca Mon Sep 17 00:00:00 2001
+From: Gregory Pike <greg@gregpike.ca>
+Date: Fri, 31 Aug 2012 19:20:01 -0400
+Subject: [PATCH] feat(ngModel): support ngTrim attribute on input
+
+---
+ src/ng/directive/input.js      | 21 ++++++++++++++++++---
+ test/ng/directive/inputSpec.js |  8 ++++++++
+ 2 files changed, 26 insertions(+), 3 deletions(-)
+
+diff --git a/src/ng/directive/input.js b/src/ng/directive/input.js
+index cd2f0cf..412d768 100644
+--- a/src/ng/directive/input.js
++++ b/src/ng/directive/input.js
+@@ -25,6 +25,8 @@ var inputType = {
+    *    patterns defined as scope expressions.
+    * @param {string=} ngChange Angular expression to be executed when input changes due to user
+    *    interaction with the input element.
++   * @param {boolean=} [ngTrim=true] If set to false Angular will not automatically trimming the
++   *    input.
+    *
+    * @example
+       <doc:example>
+@@ -32,12 +34,12 @@ var inputType = {
+          <script>
+            function Ctrl($scope) {
+              $scope.text = 'guest';
+-             $scope.word = /^\w*$/;
++             $scope.word = /^\s*\w*\s*$/;
+            }
+          </script>
+          <form name="myForm" ng-controller="Ctrl">
+            Single word: <input type="text" name="input" ng-model="text"
+-                               ng-pattern="word" required>
++                               ng-pattern="word" required ng-trim="false">
+            <span class="error" ng-show="myForm.input.$error.required">
+              Required!</span>
+            <span class="error" ng-show="myForm.input.$error.pattern">
+@@ -66,6 +68,12 @@ var inputType = {
+             input('text').enter('hello world');
+             expect(binding('myForm.input.$valid')).toEqual('false');
+           });
++
++          it('should not be trimmed', function() {
++            input('text').enter('untrimmed ');
++            expect(binding('text')).toEqual('untrimmed ');
++            expect(binding('myForm.input.$valid')).toEqual('true');
++          });
+         </doc:scenario>
+       </doc:example>
+    */
+@@ -370,7 +378,14 @@ function isEmpty(value) {
+ function textInputType(scope, element, attr, ctrl, $sniffer, $browser) {
+ 
+   var listener = function() {
+-    var value = trim(element.val());
++    var value = element.val();
++
++    // By default we will trim the value
++    // If the attribute ng-trim exists we will avoid trimming
++    // e.g. <input ng-model="foo" ng-trim="false">
++    if (toBoolean(attr.ngTrim || 'T')) {
++      value = trim(value);
++    }
+ 
+     if (ctrl.$viewValue !== value) {
+       scope.$apply(function() {
+diff --git a/test/ng/directive/inputSpec.js b/test/ng/directive/inputSpec.js
+index 3b51101..01669b1 100644
+--- a/test/ng/directive/inputSpec.js
++++ b/test/ng/directive/inputSpec.js
+@@ -382,6 +382,14 @@ describe('input', function() {
+   });
+ 
+ 
++  it('should update the model and not trim the value', function() {
++    compileInput('<input type="text" ng-model="name" name="alias" ng-trim="false" />');
++
++    changeInputValueTo('  a  ');
++    expect(scope.name).toEqual('  a  ');
++  });
++
++
+   it('should allow complex reference binding', function() {
+     compileInput('<input type="text" ng-model="obj[\'abc\'].name"/>');
+ 
+-- 
+1.8.1.6
+

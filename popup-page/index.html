@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html ng-app="popupPage" ng-csp>
+<head>
+	<meta charset="utf-8">
+	<title>Q Pad</title>
+	<link rel="stylesheet" href="./style.css">
+	<script src="/vendor/angular/angular.js"></script>
+	<script src="/scripts/events.js"></script>
+	<script src="/scripts/wrapped-storage.js"></script>
+	<script src="/scripts/app.js"></script>
+	<script src="./app.js"></script>
+</head>
+<body ng-controller="PopupPageController" x-when-focus="changeState('')"
+	class="popup-{{ !maximized }} size-{{ popupSize }}">
+	<div id="container" class="blur-{{ state != '' }}">
+		<ul id="tools">
+			<li>
+				<button ng-click="changeState('share', 'svg-btn')"
+					ng-disabled="text == ''">
+					<img src="/images/share.png" draggable="false">
+					<span>Share</span>
+				</button>
+			</li>
+			<li>
+				<button ng-click="changeState('clear', 'cc-btn')"
+					ng-disabled="text == ''">
+					<img src="/images/clear.png" draggable="false">
+					<span>Clear</span>
+				</button>
+			</li>
+			<li ng-hide="maximized">
+				<button ng-click="changeState('paste', 'pu-btn')">
+					<span>Paste</span>
+				</button>
+			</li>
+			<li class="fill"></li>
+			<li ng-hide="maximized">
+				<button id="maximize-button" ng-click="maximize()">
+					<img src="/images/tab.png" draggable="false">
+				</button>
+			</li>
+			<li>
+				<button id="option-button" ng-click="openOptionsPage()">
+					<img src="/images/cogwheel.png" draggable="false">
+				</button>
+			</li>
+			<li>
+				<button ng-click="close()">
+					<img src="/images/close.png" draggable="false">
+				</button>
+			</li>
+		</ul>
+
+		<div class="fill" x-text-frame
+			x-font-name="fontName"
+			x-font-size="fontSize"
+			x-text="text"
+			x-focus="focus"
+			x-selection-start="selectionStart"
+			x-selection-end="selectionEnd"
+			x-key-bindable="state == ''"
+			x-key-bind="{
+				'Tab': 'insert(\'\\t\')',
+				'Ctrl+S': '!!text && changeState(\'share\', \'svg-btn\')',
+				'Ctrl+L': '!!text && changeState(\'clear\', \'cc-btn\')',
+				'Ctrl+U': '!maximized && pasteUrl()',
+				'Ctrl+T': '!maximized && pasteTitle()',
+				'Ctrl+P': '!maximized && pasteSelection()',
+				'Ctrl+Shift+/': 'changeState(\'help\', \'hc-btn\')'
+			}"></div>
+	</div>
+
+	<div class="dialog" ng-show="state == 'share'" x-esc="changeState('')"
+		ng-click="$event.target == $event.currentTarget && changeState('')">
+		<div class="box">
+			<p>Share via...</p>
+			<button id="svg-btn" class="share-btn" x-nav x-prev="sc-btn"
+				x-next="svb-btn" x-right="svb-btn" x-down="sc-btn"
+				ng-click="shareViaGmail()">
+				<img src="/images/gmail-128.png" draggable="false">
+				<span>Gmail</span>
+			</button>
+			<button id="svb-btn" class="share-btn" x-nav x-prev="svg-btn"
+				x-next="svt-btn" x-left="svg-btn" x-right="svt-btn"
+				x-down="sc-btn" ng-click="shareViaBlogger()">
+				<img src="/images/blogger-128.png" draggable="false">
+				<span>Blogger</span>
+			</button>
+			<button id="svt-btn" class="share-btn" x-nav x-prev="svb-btn"
+				x-left="svb-btn" x-next="sc-btn" x-down="sc-btn"
+				ng-click="shareViaTwitter()">
+				<img src="/images/twitter-128.png" draggable="false">
+				<span>Twitter</span>
+			</button>
+			<div class="dialog-btns">
+				<button id="sc-btn" class="dialog-btn" x-nav x-prev="svt-btn"
+					x-next="svg-btn" x-left="svg-btn" x-up="svb-btn"
+					x-right="svt-btn" ng-click="changeState('')">
+					<span>Cancel</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="dialog" ng-show="state == 'clear'" x-esc="changeState('')"
+		ng-click="$event.target == $event.currentTarget && changeState('')">
+		<div class="box">
+			<p>Are you sure to delete?</p>
+			<div class="dialog-btns">
+				<button id="co-btn" class="dialog-btn" x-nav x-prev="cc-btn"
+					x-next="cc-btn" x-right="cc-btn" ng-click="clearText()">
+					<span>OK</span>
+				</button>
+				<button id="cc-btn" class="dialog-btn" x-nav x-prev="co-btn"
+					x-next="co-btn" x-left="co-btn" ng-click="changeState('')">
+					<span>Cancel</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="dialog" ng-show="state == 'paste'" x-esc="changeState('')"
+		ng-click="$event.target == $event.currentTarget && changeState('')">
+		<div class="box">
+			<button id="pu-btn" x-nav x-prev="pc-btn" x-next="pt-btn"
+				x-down="pt-btn" ng-click="pasteUrl()">
+				<span>Paste URL</span>
+			</button>
+			<button id="pt-btn" x-nav x-prev="pu-btn" x-next="ps-btn"
+				x-up="pu-btn" x-down="ps-btn" ng-click="pasteTitle()">
+				<span>Paste Title</span>
+			</button>
+			<button id="ps-btn" x-nav x-prev="pt-btn" x-next="pc-btn"
+				x-up="pt-btn" x-down="pc-btn" ng-click="pasteSelection()">
+				<span>Paste Selection</span>
+			</button>
+			<div class="dialog-btns">
+				<button id="pc-btn" class="dialog-btn" x-nav x-prev="ps-btn"
+					x-next="pu-btn" x-up="ps-btn" ng-click="changeState('')">
+					<span>Cancel</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="dialog" ng-show="state == 'help'" x-esc="changeState('')"
+		ng-click="$event.target == $event.currentTarget && changeState('')">
+		<div class="box">
+			<p>Shortcut Keys</p>
+			<table id="help-table">
+			<tbody>
+				<tr><td>Share</td><td>Ctrl + S</td></tr>
+				<tr><td>Clear</td><td>Ctrl + L</td></tr>
+				<tr><td>Paste URL</td><td>Ctrl + U</td></tr>
+				<tr><td>Paste Title</td><td>Ctrl + T</td></tr>
+				<tr><td>Paste Selection</td><td>Ctrl + P</td></tr>
+			</tbody>
+			</table>
+			<button id="hc-btn" ng-click="changeState('')">
+				<span>Close</span>
+			</button>
+		</div>
+	</div>
+</body>
+</html>

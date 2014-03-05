@@ -1,0 +1,208 @@
+/*
+ * (C) 2013 chick307 <chick307@gmail.com>
+ *
+ * Licensed under the MIT License.
+ * http://opensource.org/licenses/mit-license
+ */
+
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+body.popup-true.size-0 { width: 420px; height: 260px }
+body.popup-true.size-1 { width: 600px; height: 372px }
+
+button {
+	margin: 0;
+	padding: 0;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+	background: linear-gradient(to bottom, #FFF, #F8F8F8);
+	box-shadow: inset 0 0 2px #FFF;
+	vertical-align: top;
+	color: #444;
+	cursor: pointer;
+}
+
+button:disabled {
+	background: #F8F8F8;
+	color: #CCC;
+	cursor: default;
+}
+
+button:focus {
+	outline: none;
+	border-color: #F80;
+	box-shadow: 0 0 0 1px #F80;
+}
+
+button:active {
+	border-color: #F80;
+	background: #FEC;
+	box-shadow: 0 0 0 1px #F80;
+}
+
+button:active > span {
+	text-shadow: none;
+}
+
+button > img {
+	margin: 3px;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+}
+
+button > span {
+	padding: 0 0.5em;
+	font: 12px/22px Helvetica, Arial, sans-serif;
+	text-shadow: 1px 1px 0 #FFF;
+	vertical-align: middle;
+}
+
+button > img + span {
+	padding-left: 0;
+}
+
+.fill {
+	-webkit-box-flex: 1;
+}
+
+#container {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	width: 100%;
+	height: 100%;
+	transition: opacity 0.3s;
+}
+
+#container.blur-true {
+	opacity: 0.5;
+}
+
+#tools {
+	display: -webkit-box;
+	margin: 0;
+	padding: 1px;
+	background: linear-gradient(to bottom, #FCFCFC, #FFF);
+}
+
+#tools > li {
+	display: block;
+	margin: 1px;
+	padding: 0;
+}
+
+[x-text-frame] {
+	display: -webkit-box;
+	position: relative;
+	border-width: 1px 0 0 0;
+	border-style: solid;
+	border-color: #DDD;
+}
+
+[x-text-frame] iframe {
+	display: block;
+	-webkit-box-flex: 1;
+	border: none;
+}
+
+.dialog {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.box {
+	margin: 0 auto;
+	border: 1px solid #DDD;
+	border-top: none;
+	border-radius: 0 0 3px 3px;
+	padding: 4px 12px;
+	width: 240px;
+	background: linear-gradient(to bottom, #FCFCFC, #FFF);
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+
+.box button {
+	display: block;
+	box-sizing: content-box;
+	margin: 8px;
+	width: calc(100%
+		- 8px * 2 /* margin */
+		- 1px * 2 /* border */
+		- 2px * 2 /* padding */);
+	height: 24px;
+}
+
+.box button > span {
+	display: inline-block;
+	width: calc(100%
+		- 24px * 2 /* margin */
+		- 2px * 2 /* padding */);
+	line-height: 24px;
+	vertical-align: middle;
+}
+
+.dialog-btns {
+	display: block;
+	margin: 16px 0 8px;
+	padding: 0;
+	text-align: center;
+}
+
+button.dialog-btn {
+	display: inline-block;
+	margin: 0 4px;
+	width: 8em;
+}
+
+button.share-btn {
+	display: inline-block;
+	margin: 0 8px;
+	width: 48px;
+	height: 48px;
+}
+
+button.share-btn > img {
+	margin: 0;
+	width: 32px;
+	height: 32px;
+}
+
+button.share-btn > span {
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+	width: auto;
+	line-height: 1;
+	text-align: center;
+	font-size: 11px;
+}
+
+#help-table {
+	width: 100%;
+	font-size: x-small;
+}
+
+#help-table td {
+	text-align: left;
+	padding: 0 8px;
+}
+
+#help-table td:first-child {
+	width: 50%;
+	text-align: right;
+}

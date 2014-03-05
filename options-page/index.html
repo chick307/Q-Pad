@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="optionsPage" ng-csp>
+<head>
+	<meta charset="utf-8">
+	<title>Q Pad</title>
+	<link rel="stylesheet" href="./style.css">
+	<script src="/vendor/angular/angular.js"></script>
+	<script src="/scripts/events.js"></script>
+	<script src="/scripts/wrapped-storage.js"></script>
+	<script src="/scripts/app.js"></script>
+	<script src="./app.js"></script>
+</head>
+<body ng-controller="OptionsPageController">
+	<div class="container">
+		<h1>
+			<img src="/images/qpad-128.png" width="64" height="64">
+		</h1>
+
+		<h2>Appearance</h2>
+
+		<div class="section">
+			<label for="fn-box">Font family</label>
+			<input id="fn-box" type="text" list="font-families"
+				ng-model="fontName">
+			<datalist id="font-families">
+				<option value="serif">
+				<option value="sans-serif">
+				<option value="cursive">
+				<option value="fantasy">
+				<option value="monospace">
+			</datalist>
+			<span saved-msg="font-name">saved</span>
+		</div>
+
+		<div class="section">
+			<label for="fs-box">Font size</label>
+			<input id="fs-box" type="number" min="1" value="14"
+				ng-model="fontSize">
+			<span saved-msg="font-size">saved</span>
+		</div>
+
+		<div class="section">
+			<label for="ps-box">Popup page size</label>
+			<select id="ps-box" ng-model="popupSize">
+				<option value="0">small</option>
+				<option value="1">normal</option>
+				<option value="2">always open in tab</option>
+			</select>
+			<span saved-msg="popup-size">saved</span>
+		</div>
+	</div>
+
+	<div class="footer">
+		<p>(C) 2010-2013 <a href="http://twitter.com/chick307" x-external-link>chick307</a> &lt;<a href="mailto:chick307@gmail.com" x-external-link>chick307@gmail.com</a>&gt;
+	</div>
+
+	<div class="github-ribbon">
+		<a href="https://github.com/chick307/Q-Pad" x-external-link><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+	</div>
+</body>
+</html>
